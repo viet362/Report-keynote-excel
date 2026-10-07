@@ -69,7 +69,7 @@ Nếu bạn muốn chạy trực tiếp từ mã nguồn Python hoặc chỉnh s
 - Đã cài đặt **Python 3.10 trở lên** (Khuyên dùng Python 3.10 hoặc 3.11).
 - Đã cài đặt phần mềm **Keynote.app** của Apple.
 
-### Các bước cài đặt:
+### Các bước cài đặt mã nguồn:
 
 ```bash
 # 1. Di chuyển vào thư mục dự án
@@ -85,17 +85,38 @@ source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# 5. Khởi chạy ứng dụng
+# 5. Cài đặt Ollama và tải mô hình AI Qwen (phục vụ Phase 2)
+# (Nếu máy bạn chưa có Ollama, cài qua brew hoặc tải từ https://ollama.com):
+brew install --cask ollama
+ollama pull qwen2.5:3b
+
+# 6. Khởi chạy ứng dụng
 python3 main.py
 ```
 
-### Cách đóng gói ra bản .app / .dmg:
-Khi muốn đóng gói toàn bộ app kèm AI Offline để gửi cho người khác:
-```bash
-chmod +x build_app.sh
-./build_app.sh
-```
-File đóng gói hoàn chỉnh sẽ xuất hiện tại thư mục `dist/0.5%hopeless_Mac_Full_AI.dmg`.
+---
+
+### Cách đóng gói ra bản .app / .dmg (Tích hợp Full AI Offline):
+
+Do mô hình AI `qwen2.5:3b` (~1.8GB) và bộ máy `Ollama.app` (~500MB) có dung lượng lớn nên **không được đưa lên GitHub** (vượt giới hạn 100MB của Git).
+
+Khi bạn muốn tự đóng gói ra file `.dmg` hoàn chỉnh chứa sẵn 100% AI offline để gửi cho người khác không cần cài đặt gì thêm:
+
+1. **Chuẩn bị tài nguyên AI vào dự án (1 lệnh tự động):**
+   ```bash
+   chmod +x prepare_ai_assets.sh
+   ./prepare_ai_assets.sh
+   ```
+   *Script này sẽ tự động tìm kiếm `Ollama.app` và mô hình `qwen2.5:3b` đã tải trên máy bạn để copy vào thư mục dự án.*
+
+2. **Chạy kịch bản đóng gói:**
+   ```bash
+   chmod +x build_app.sh
+   ./build_app.sh
+   ```
+
+3. **Kết quả:**
+   Tệp đĩa cài đặt hoàn chỉnh `dist/0.5%hopeless_Mac_Full_AI.dmg` (~2.0 GB) và `dist/0.5%hopeless_Mac_Full_AI.zip` sẽ được tạo ra, sẵn sàng gửi đi!
 
 ---
 
